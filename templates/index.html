@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Book Recommender System</title>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <style>
+        .text-white {
+            color: white;
+            font-weight: bold;
+        }
+
+        .navbar {
+            background-color: black;
+        }
+
+        .navbar-brand {
+            font-size: 28px;
+            color: red !important;
+        }
+
+        .navbar-nav > li > a {
+            font-size: 23px;
+            color: white;
+        }
+
+        .navbar-nav > li > a:hover,
+        .navbar-nav > li > a:focus {
+            background-color: #222;
+        }
+
+        .card {
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .card:hover {
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+
+        .card-body {
+            height: 320px; /* Set a fixed height for card-body */
+            display: flex;
+            flex-direction: column;
+            align-items: center; /* Align content vertically */
+            padding: 10px;
+        }
+
+        .card-img-top {
+            width: 80%;
+            height: auto;
+            object-fit: cover; /* Scale the image while maintaining aspect ratio */
+            border-bottom: 2px solid #eee;
+        }
+
+        .book-details {
+            padding: 10px;
+            text-align: center;
+            flex-grow: 1;
+        }
+
+        .book-details h5 {
+            margin-bottom: 5px;
+            font-size: 14px;
+        }
+
+        .book-link {
+            text-decoration: none;
+            color: #00a65a;
+            font-weight: bold;
+        }
+
+        .book-link:hover {
+            color: #00733e;
+        }
+
+        .container-fluid {
+            padding-top: 20px;
+            padding-bottom: 20px;
+        }
+    </style>
+</head>
+<body style="background-color: #f4f4f4;">
+
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a  href="/" class="navbar-brand text-white">goodreads</a>
+        </div>
+        <ul class="nav navbar-nav">
+            <li><a href="/" class="text-white">Home</a></li>
+            <li><a href="/recommend" class="text-white">Recommend</a></li>
+            <li><a href="#" class="text-white">Contact</a></li>
+        </ul>
+    </div>
+</nav>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h1 class="text-center text-white" style="font-size: 36px; color:red;" >Top 50 Books</h1>
+        </div>
+
+        {% for i in range(book_name|length) %}
+            <div class="col-md-3">
+                <div class="card">
+                    <img class="card-img-top" src="{{ image[i] }}" alt="Book Image">
+                    <div class="card-body">
+                        <div class="book-details">
+                            <h5 class="text-muted">{{ book_name[i] }}</h5>
+                            <h5 class="text-muted">{{ author[i] }}</h5>
+                            <h5 class="text-muted">Votes - {{ votes[i] }}</h5>
+                            <h5 class="text-muted">Rating - {{ rating[i] }}</h5>
+                            <a href="#" class="book-link" data-isbn="{{ isbn[i] }}" target="_blank">View on AbeBooks</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+<script>
+    document.querySelectorAll('.book-link').forEach(link => {
+        link.addEventListener('click', function(event) {
+            event.preventDefault(); // Prevent the default action of clicking on a link
+            const isbn = this.getAttribute('data-isbn');
+            const abeBooksLink = `https://www.abebooks.com/book-search/isbn/${isbn}/`;
+            window.open(abeBooksLink, '_blank'); // Open the AbeBooks link in a new tab
+        });
+    });
+</script>
+</body>
+</html>
